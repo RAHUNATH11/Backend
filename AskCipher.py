@@ -8,9 +8,15 @@ from datetime import datetime
 # CONFIG
 # ==============================
 
-GROQ_API_KEY = "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"
-GROQ_API_KEY_FALLBACK = "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"
-SPREADSHEET_ID = "1YGnS4qHvStNFes1rARgsJNe2CU_1ZgP1KhamNr4ucAY"
+# GROQ_API_KEY = "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"
+# GROQ_API_KEY_FALLBACK = "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"
+# SPREADSHEET_ID = "1YGnS4qHvStNFes1rARgsJNe2CU_1ZgP1KhamNr4ucAY"
+
+import os
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_API_KEY_FALLBACK=os.getenv("GROQ_API_KEY_FALLBACK")
+SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")
 
 AUTOMATE_URL = f"https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/export?format=csv&gid=0"
 DATEWISE_URL = f"https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=Date+Wise"
