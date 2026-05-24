@@ -178,7 +178,7 @@ def chat():
         )
 
         return jsonify({
-            "response": response
+            "response": answer
         })
 
     except Exception as e:
