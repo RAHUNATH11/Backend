@@ -6,6 +6,8 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from supabase import create_client
 import os
+from AskCipher import get_cipher_response
+
 url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_KEY")
 app = Flask(__name__)
