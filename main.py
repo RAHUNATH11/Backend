@@ -137,19 +137,55 @@ def get_datewise():
 # ASK CIPHER - CHAT ENDPOINT
 # ==============================
 
+# @app.route('/api/chat', methods=['POST'])
+# def chat():
+#     data = request.json
+#     question = data.get("question", "")
+#     history = data.get("history", [])
+
+#     if not question:
+#         return jsonify({"error": "No question provided"}), 400
+
+#     answer = get_cipher_response(question, history)
+#     return jsonify({"answer": answer})
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
-    data = request.json
-    question = data.get("question", "")
-    history = data.get("history", [])
 
-    if not question:
-        return jsonify({"error": "No question provided"}), 400
+    try:
 
-    answer = get_cipher_response(question, history)
-    return jsonify({"answer": answer})
+        data = request.get_json()
 
+        if not data:
+            return jsonify({
+                "error": "No JSON received"
+            }), 400
 
+        question = data.get("question", "")
+
+        if not question:
+            return jsonify({
+                "error": "No question provided"
+            }), 400
+
+        history = data.get("history", [])
+
+        response = get_cipher_response(
+            question,
+            history
+        )
+
+        return jsonify({
+            "response": response
+        })
+
+    except Exception as e:
+
+        print("CHAT ERROR:", str(e))
+
+        return jsonify({
+            "error": str(e)
+        }), 500
 
 # ==============================
 # MAIN
