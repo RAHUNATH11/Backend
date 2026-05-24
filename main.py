@@ -119,6 +119,18 @@ def get_users():
         "analytics": analytics
     })
 
+@app.route('/api/datewise', methods=['GET'])
+def get_datewise():
+    try:
+        response = supabase.table("date_wise").select("*").execute()
+        data = response.data
+        # Sort by date ascending
+        data.sort(key=lambda x: x.get('date', ''))
+        return jsonify(data)
+    except Exception as e:
+        print("Error fetching datewise:", e)
+        return jsonify([]), 500
+
 
 # ==============================
 # MAIN
