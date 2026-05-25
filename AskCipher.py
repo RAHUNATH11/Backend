@@ -286,20 +286,31 @@ def call_groq(messages):
 # MAIN FUNCTION (called by API)
 # ==============================
 
-def get_cipher_response(question, history=None):
-    context = build_context(question)
+# def get_cipher_response(question, history=None):
+#     context = build_context(question)
 
-    messages = [
-        {"role": "system", "content": f"{SYSTEM_PROMPT}\n\n## CURRENT PROJECT DATA\n{context}"}
-    ]
+#     messages = [
+#         {"role": "system", "content": f"{SYSTEM_PROMPT}\n\n## CURRENT PROJECT DATA\n{context}"}
+#     ]
 
-    if history:
-        for turn in history[-6:]:
-            role = turn.get("role", "user")
-            content = turn.get("content", "")
-            if role in ("user", "assistant") and content:
-                messages.append({"role": role, "content": content})
+#     if history:
+#         for turn in history[-6:]:
+#             role = turn.get("role", "user")
+#             content = turn.get("content", "")
+#             if role in ("user", "assistant") and content:
+#                 messages.append({"role": role, "content": content})
 
-    messages.append({"role": "user", "content": question})
+#     messages.append({"role": "user", "content": question})
 
-    return call_groq(messages)
+#     return call_groq(messages)
+def get_cipher_response(question, history=[]):
+
+    try:
+
+        context = build_context(question)
+
+        return context[:1000]
+
+    except Exception as e:
+
+        return f"Bot Error: {str(e)}"
