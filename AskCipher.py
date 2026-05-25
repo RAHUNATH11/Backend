@@ -334,40 +334,50 @@ def call_groq(messages):
 #         return f"Bot error: {str(e)}"
 
 
-
 def get_cipher_response(question, history=None):
 
     if history is None:
         history = []
 
-    context = build_context(question)
+    try:
 
-    headers = {
-        "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type": "application/json"
-    }
+        context = build_context(question)
 
-    payload = {
-        "model": "llama3-70b-8192",
-        "messages": [
-            {
-                "role": "system",
-                "content": context
-            },
-            {
-                "role": "user",
-                "content": question
-            }
-        ]
-    }
+        headers = {
+            "Authorization": f"Bearer {GROQ_API_KEY}",
+            "Content-Type": "application/json"
+        }
 
-    response = requests.post(
-        "https://api.groq.com/openai/v1/chat/completions",
-        headers=headers,
-        json=payload,
-        timeout=60
-    )
+        payload = {
+            "model": "llama3-70b-8192",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": context
+                },
+                {
+                    "role": "user",
+                    "content": question
+                }
+            ]
+        }
 
-    result = response.json()
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=60
+        )
 
-    return result["choices"][0]["message"]["content"]
+        result = response.json()
+
+        print("GROQ RESPONSE:", result)
+
+        if "choices" not in result:
+            return f"Groq Error: {result}"
+
+        return result["choices"][0]["message"]["content"]
+
+    except Exception as e:
+
+        return f"Bot Error: {str(e)}"
