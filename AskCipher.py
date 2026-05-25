@@ -318,17 +318,56 @@ def call_groq(messages):
 #         return f"Bot Error: {str(e)}"
 
 
+# def get_cipher_response(question, history=None):
+
+#     if history is None:
+#         history = []
+
+#     try:
+
+#         context = build_context(question)
+
+#         return context[:1000]
+
+#     except Exception as e:
+
+#         return f"Bot error: {str(e)}"
+
+
+
 def get_cipher_response(question, history=None):
 
     if history is None:
         history = []
 
-    try:
+    context = build_context(question)
 
-        context = build_context(question)
+    headers = {
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json"
+    }
 
-        return context[:1000]
+    payload = {
+        "model": "llama3-70b-8192",
+        "messages": [
+            {
+                "role": "system",
+                "content": context
+            },
+            {
+                "role": "user",
+                "content": question
+            }
+        ]
+    }
 
-    except Exception as e:
+    response = requests.post(
+        "https://api.groq.com/openai/v1/chat/completions",
+        headers=headers,
+        json=payload,
+        timeout=60
+    )
 
-        return f"Bot error: {str(e)}"
+    result = response.json()
+
+    return result["choices"][0]["message"]["content"]
