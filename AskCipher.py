@@ -303,7 +303,25 @@ def call_groq(messages):
 #     messages.append({"role": "user", "content": question})
 
 #     return call_groq(messages)
-def get_cipher_response(question, history=[]):
+
+
+# def get_cipher_response(question, history=[]):
+
+#     try:
+
+#         context = build_context(question)
+
+#         return context[:1000]
+
+#     except Exception as e:
+
+#         return f"Bot Error: {str(e)}"
+
+
+def get_cipher_response(question, history=None):
+
+    if history is None:
+        history = []
 
     try:
 
@@ -313,4 +331,4 @@ def get_cipher_response(question, history=[]):
 
     except Exception as e:
 
-        return f"Bot Error: {str(e)}"
+        return f"Bot error: {str(e)}"
