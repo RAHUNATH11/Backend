@@ -189,6 +189,60 @@ def get_datewise():
 #             "error": str(e)
 #         }), 500
 
+# @app.route('/api/chat', methods=['POST'])
+# def chat():
+
+#     try:
+
+#         data = request.get_json()
+
+#         if not data:
+#             return jsonify({
+#                 "answer": "No request body"
+#             }), 400
+
+#         question = data.get("question", "")
+
+#         history = data.get("history", [])
+
+#         if not question:
+#             return jsonify({
+#                 "answer": "No question provided"
+#             }), 400
+
+#         answer = get_cipher_response(
+#             question,
+#             history
+#         )
+
+#         return jsonify({
+#             "answer": answer
+#         })
+
+#     except Exception as e:
+
+#         print("CHAT ERROR:", str(e))
+
+#         return jsonify({
+#             "answer": str(e)
+#         }), 500
+
+# # ==============================
+# # MAIN
+# # ==============================
+
+# # if __name__ == '__main__':
+# #     app.run(debug=True)
+
+# if __name__ == "__main__":
+#     import os
+#     port = int(os.environ.get("PORT", 10000))
+#     app.run(host="0.0.0.0", port=port)
+
+# ==============================
+# ASK CIPHER - CHAT ENDPOINT
+# ==============================
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
 
@@ -198,11 +252,10 @@ def chat():
 
         if not data:
             return jsonify({
-                "answer": "No request body"
+                "answer": "No JSON received"
             }), 400
 
         question = data.get("question", "")
-
         history = data.get("history", [])
 
         if not question:
@@ -227,14 +280,6 @@ def chat():
             "answer": str(e)
         }), 500
 
-# ==============================
-# MAIN
-# ==============================
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
 
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=10000)
