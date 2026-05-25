@@ -151,6 +151,44 @@ def get_datewise():
 #     answer = get_cipher_response(question, history)
 #     return jsonify({"answer": answer})
 
+# @app.route('/api/chat', methods=['POST'])
+# def chat():
+
+#     try:
+
+#         data = request.get_json()
+
+#         if not data:
+#             return jsonify({
+#                 "error": "No JSON received"
+#             }), 400
+
+#         question = data.get("question", "")
+
+#         if not question:
+#             return jsonify({
+#                 "error": "No question provided"
+#             }), 400
+
+#         history = data.get("history", [])
+
+#         response = get_cipher_response(
+#             question,
+#             history
+#         )
+
+#         return jsonify({
+#             "response": answer
+#         })
+
+#     except Exception as e:
+
+#         print("CHAT ERROR:", str(e))
+
+#         return jsonify({
+#             "error": str(e)
+#         }), 500
+
 @app.route('/api/chat', methods=['POST'])
 def chat():
 
@@ -160,25 +198,25 @@ def chat():
 
         if not data:
             return jsonify({
-                "error": "No JSON received"
+                "answer": "No request body"
             }), 400
 
         question = data.get("question", "")
 
-        if not question:
-            return jsonify({
-                "error": "No question provided"
-            }), 400
-
         history = data.get("history", [])
 
-        response = get_cipher_response(
+        if not question:
+            return jsonify({
+                "answer": "No question provided"
+            }), 400
+
+        answer = get_cipher_response(
             question,
             history
         )
 
         return jsonify({
-            "response": answer
+            "answer": answer
         })
 
     except Exception as e:
@@ -186,7 +224,7 @@ def chat():
         print("CHAT ERROR:", str(e))
 
         return jsonify({
-            "error": str(e)
+            "answer": str(e)
         }), 500
 
 # ==============================
